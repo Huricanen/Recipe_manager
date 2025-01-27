@@ -18,11 +18,13 @@ class Manager(QMainWindow):
     def initUI(self):
         self.setFixedSize(760, 680)
         self.setWindowTitle('Менеджер рецептов')
-        self.setWindowIcon(QIcon('_internal\Manager_window_icon.jpg'))
+        self.setWindowIcon(QIcon('_internal/Manager_window_icon.jpg'))
+
 
         # Управление категориями рецептов
 
         self.label_categories = QLabel('Команды для управления категориями', self)
+        self.label_categories.setStyleSheet("font-weight: bold;")
         self.label_categories.adjustSize()
         self.label_categories.move(50, 600)
 
@@ -41,30 +43,36 @@ class Manager(QMainWindow):
         # Управление рецептами
 
         self.label_recipies = QLabel('Команды для управления рецептами', self)
+        self.label_recipies.setStyleSheet("font-weight: bold;")
         self.label_recipies.adjustSize()
         self.label_recipies.move(460, 10)
 
         self.btn_add_recipe = QPushButton('Сохранить рецепт в категорию', self)
+        self.btn_add_recipe.setStyleSheet('QPushButton { background-color: #4CAF50}')
         self.btn_add_recipe.adjustSize()
         self.btn_add_recipe.move(390, 30)
         self.btn_add_recipe.clicked.connect(self.add_new_recipe)
 
         self.btn_clear = QPushButton('Создать новый рецепт', self)
+        self.btn_clear.setStyleSheet('QPushButton {background-color: #1E90FF;}')
         self.btn_clear.adjustSize()
         self.btn_clear.move(483, 115)
         self.btn_clear.clicked.connect(self.create_new_recipe)
 
         self.btn_del_recipe = QPushButton('Удалить рецепт', self)
+        self.btn_del_recipe.setStyleSheet('QPushButton {background-color: #F44336;}')
         self.btn_del_recipe.adjustSize()
         self.btn_del_recipe.move(570, 30)
         self.btn_del_recipe.clicked.connect(self.del_existing_recipe)
 
         self.btn_import_recipe = QPushButton('Импортировать рецепт', self)
+        self.btn_import_recipe.setStyleSheet('QPushButton {background-color: #9370DB;}')
         self.btn_import_recipe.adjustSize()
         self.btn_import_recipe.move(390, 55)
         self.btn_import_recipe.clicked.connect(self.import_recipe)
 
         self.btn_edit_recipe = QPushButton('Редактировать рецепт', self)
+        self.btn_edit_recipe.setStyleSheet('QPushButton { background-color: #2196F3;}')
         self.btn_edit_recipe.adjustSize()
         self.btn_edit_recipe.move(570, 55)
         self.btn_edit_recipe.clicked.connect(self.edit_recipe)
@@ -72,15 +80,18 @@ class Manager(QMainWindow):
         # Управление фильтрацией
 
         self.label_filter = QLabel('Команды для фильтрации рецептов', self)
+        self.label_filter.setStyleSheet("font-weight: bold;")
         self.label_filter.adjustSize()
         self.label_filter.move(60, 10)
 
         self.btn_filter = QPushButton('Отфильтровать рецепты', self)
+        self.btn_filter.setStyleSheet('QPushButton { background-color: #FF9800;}')
         self.btn_filter.adjustSize()
         self.btn_filter.move(25, 30)
         self.btn_filter.clicked.connect(self.filter_recipes)
 
         self.btn_cancel_filter = QPushButton('Отмена фильтрации', self)
+        self.btn_cancel_filter.setStyleSheet('QPushButton { background-color: #90CAF9;}')
         self.btn_cancel_filter.adjustSize()
         self.btn_cancel_filter.move(180, 30)
         self.btn_cancel_filter.clicked.connect(self.cancel_filter)
@@ -88,6 +99,7 @@ class Manager(QMainWindow):
         # фильтры
 
         self.label_filter_in = QLabel('Фильтры для рецептов', self)
+        self.label_filter_in.setStyleSheet("font-weight: bold;")
         self.label_filter_in.adjustSize()
         self.label_filter_in.move(90, 90)
 
@@ -119,28 +131,30 @@ class Manager(QMainWindow):
         self.recipe_text.move(350, 140)
 
         self.label_recipe_text = QLabel('Поле для вывода и редактирования рецепта', self)
+        self.label_recipe_text.setStyleSheet("font-weight: bold;")
         self.label_recipe_text.adjustSize()
         self.label_recipe_text.move(430, 100)
 
         self.products_edit = QLineEdit(self)
         self.products_edit_label = QLabel('Продукты:', self)
         self.products_edit_label.adjustSize()
-        self.products_edit.setFixedSize(300, 30)
-        self.products_edit.move(430, 550)
+        self.products_edit.setFixedSize(250, 30)
+        self.products_edit.move(490, 550)
         self.products_edit_label.move(360, 555)
 
         self.time_edit = QTimeEdit(self)
         self.time_edit_label = QLabel('Время приготовления: ', self)
         self.time_edit_label.adjustSize()
-        self.time_edit.move(570, 620)
-        self.time_edit_label.move(440, 625)
+        self.time_edit.move(490, 620)
+        self.time_edit.setFixedSize(250, 30)
+        self.time_edit_label.move(360, 625)
 
         self.name_edit = QLineEdit(self)
         self.name_edit_label = QLabel('Название рецепта:', self)
-        self.name_edit.setFixedSize(160, 30)
+        self.name_edit.setFixedSize(250, 30)
         self.name_edit_label.adjustSize()
-        self.name_edit.move(570, 585)
-        self.name_edit_label.move(440, 590)
+        self.name_edit.move(490, 585)
+        self.name_edit_label.move(360, 590)
 
         self.products_edit.setReadOnly(True)
         self.time_edit.setReadOnly(True)
@@ -170,6 +184,8 @@ class Manager(QMainWindow):
         self.category_of_recipe_which_is_redacted = ''
         self.curr_shown = ''
         self.products = ''
+        self.prev_name = None
+
 
         self.recipe_text.setReadOnly(True)
 
@@ -314,7 +330,8 @@ class Manager(QMainWindow):
                                                                                            text2=self.recipe_text.
                                                                                            toPlainText()),
                                                              self.recipes[category].values())))))
-                        buttonReply = QMessageBox.question(self, 'Уточнение', "Такой рецепт уже существует в данной"
+                        buttonReply = QMessageBox.question(self, 'Уточнение', "Такой рецепт по содержанию уже "
+                                                                              "существует в данной"
                                                                               f"категории под названием(-ями) "
                                                                               f"'{fuck}'"
                                                                               ", всё равно добавить?")
@@ -489,6 +506,7 @@ class Manager(QMainWindow):
                         self.products_edit.setReadOnly(False)
                         self.time_edit.setReadOnly(False)
                         self.name_edit.setReadOnly(False)
+                        self.prev_name = self.name_edit.text()
             else:
                 self.statusBar().showMessage('⚠️ Нет рецептов в данной категории! ⚠️')
                 self.statusBar().setStyleSheet('color: black; background: yellow')
@@ -505,8 +523,8 @@ class Manager(QMainWindow):
             new_name = self.name_edit.text()
             new_products = self.products_edit.text()
             new_time = int(self.time_edit.text().split(':')[0]) * 60 + int(self.time_edit.text().split(':')[1])
-            demand_1 = ' '.join([' '.join(y) for y in [i.keys() for i in self.recipes.values()]])
-            if len(new_name) > 100 or new_name in demand_1:
+            demand_1 = [' '.join(y) for y in [i.keys() for i in self.recipes.values()]]
+            if len(new_name) > 100 or new_name in demand_1[0] and new_name != self.prev_name:
                 self.statusBar().showMessage('⚠️ Название уже существует или название длиной более 100 символов!'
                                              ' ⚠️')
                 self.statusBar().setStyleSheet('color: black; background: yellow')
@@ -692,7 +710,7 @@ class Authorisation(QMainWindow):
         self.setFixedSize(200, 210)
         self.setWindowTitle('Авторизация')
 
-        self.welcome_sign = QPixmap('_internal\welcome_sign.png')
+        self.welcome_sign = QPixmap('_internal/welcome_sign.png')
         self.image = QLabel(self)
         self.image.adjustSize()
         self.image.resize(200, 132)
@@ -833,9 +851,9 @@ class Authorisation(QMainWindow):
                 self.mainbro.id_of_curr_user = int(self.id_edit.text())
 
     def write_log(self, user_id):
-        with open('_internal\log.txt', 'r') as log:
+        with open('_internal/log.txt', 'r') as log:
             text = log.read()
-        with open('_internal\log.txt', 'w') as log:
+        with open('_internal/log.txt', 'w') as log:
             status = f'Пользователь с id: {user_id}, зашёл в систему в {datetime.today()}\n'
             log.write(text + status)
 
