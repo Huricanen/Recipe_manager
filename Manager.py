@@ -324,7 +324,7 @@ class Manager(QMainWindow):
                     add = None
                     if any(list(map(lambda x: self.check_identity(text1=self.recipe_text.toPlainText(), text2=x),
                                     curr_recepies))):
-                        fuck = ' '.join(list(map(lambda y: list(filter(lambda z: z[1] == y,
+                        lam3 = ' '.join(list(map(lambda y: list(filter(lambda z: z[1] == y,
                                                                        self.recipes[category].items()))[0][0],
                                                  list(filter(lambda x: self.check_identity(text1=x,
                                                                                            text2=self.recipe_text.
@@ -333,7 +333,7 @@ class Manager(QMainWindow):
                         buttonReply = QMessageBox.question(self, 'Уточнение', "Такой рецепт по содержанию уже "
                                                                               "существует в данной"
                                                                               f"категории под названием(-ями) "
-                                                                              f"'{fuck}'"
+                                                                              f"'{lam3}'"
                                                                               ", всё равно добавить?")
 
                         if buttonReply.value != 65536:
